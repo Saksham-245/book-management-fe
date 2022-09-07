@@ -9,8 +9,8 @@ import {toast} from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useAuthDispatch();
+  const navigate = useNavigate();
 
   const validate = async (values) => {
     if (!values.email) {
@@ -32,7 +32,7 @@ const Login = () => {
       if (!response?.user) {
         toast.error(response.response.data.message);
       } else {
-        navigate('/signup');
+        navigate('/dashboard');
       }
     } catch (error) {
       console.log(error);

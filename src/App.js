@@ -1,22 +1,43 @@
 /* eslint-disable require-jsdoc */
 import React from 'react';
-import Login from './pages/Login';
-import {Route, Routes} from 'react-router-dom';
-import SignUp from './pages/SignUp';
-import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {AuthProvider} from './context/context';
-
+import {Route, Routes, useNavigate} from 'react-router-dom';
+import Login from './pages/Login';
+import {useAuthState} from './context/context';
+import SignUp from './pages/SignUp';
+import Dashboard from './pages/Dashboard';
 
 function App() {
+  const user= useAuthState();
+  const navigate = useNavigate();
+
+  const redirect = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else {
+      navigate('/');
+    }
+  };
+
+
   return (
-    <AuthProvider>
-      <Routes>
-        <Route path={'/'} element={<Login />} />
-        <Route path={'/signup'} element={<SignUp />} />
-      </Routes>
-      <ToastContainer position="bottom-right"/>
-    </AuthProvider>
+    <Routes>
+      {
+        !user ?
+        <>
+          <Route path={'/'} element={<Login/>} />
+          <Route path={'/sigup'} element={<SignUp />} />
+        </> : user?.isAdmin ?
+            <>
+              <Route path={'/dashboard'} element={<Dashboard />} />
+            </> :
+            <Route
+              path={'/dashboard'}
+              element={<h1>Welcome to user view</h1>}
+            />
+      }
+      <Route path={'*'} element={<button onClick={redirect}>Home</button>} />
+    </Routes>
   );
 }
 

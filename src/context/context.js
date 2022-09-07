@@ -1,8 +1,8 @@
 import React, {useReducer} from 'react';
 import {AuthReducer, initialState} from './reducer';
 
-export const AuthContext = React.createContext();
-export const AuthDispatchContext = React.createContext();
+export const AuthContext = React.createContext(null);
+export const AuthDispatchContext = React.createContext(null);
 
 
 /**
@@ -35,10 +35,11 @@ export function useAuthDispatch() {
 
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({children}) => {
-  const [user, dispatch] = useReducer(AuthReducer, initialState);
+  const [, dispatch] = useReducer(AuthReducer, initialState);
+  const userDetails = JSON.parse(localStorage.getItem('currentUser'));
 
   return (
-    <AuthContext.Provider value={user}>
+    <AuthContext.Provider value={userDetails}>
       <AuthDispatchContext.Provider value={dispatch}>
         {children}
       </AuthDispatchContext.Provider>
