@@ -30,7 +30,7 @@ const Login = () => {
     try {
       const response = await login(dispatch, payload);
       if (!response?.user) {
-        toast.error(response.response.data.message);
+        toast.error(response?.response?.data?.message);
       } else {
         navigate('/dashboard');
       }

@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import {useAuthState} from './context/context';
 import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
+import {ToastContainer} from 'react-toastify';
 
 function App() {
   const user= useAuthState();
@@ -21,8 +22,9 @@ function App() {
 
 
   return (
-    <Routes>
-      {
+    <div>
+      <Routes>
+        {
         !user ?
         <>
           <Route path={'/'} element={<Login/>} />
@@ -35,9 +37,11 @@ function App() {
               path={'/dashboard'}
               element={<h1>Welcome to user view</h1>}
             />
-      }
-      <Route path={'*'} element={<button onClick={redirect}>Home</button>} />
-    </Routes>
+        }
+        <Route path={'*'} element={<button onClick={redirect}>Home</button>} />
+      </Routes>
+      <ToastContainer position={'bottom-right'} />
+    </div>
   );
 }
 

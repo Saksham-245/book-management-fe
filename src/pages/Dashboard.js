@@ -1,13 +1,28 @@
-import React from 'react';
-import {useAuthState} from '../context/context';
+import React, {useState} from 'react';
+// import {useAuthState} from '../context/context';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
+import {Box} from '@mui/material';
 
-const Dashboard = () => {
-  const user = useAuthState();
+// eslint-disable-next-line react/prop-types
+const Dashboard = ({children}) => {
+  // const user = useAuthState();
+  const [sideBar, setSidebar] = useState(false);
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Welcome {user?.fullName}</p>
-    </div>
+    <>
+      <div>
+        <Box sx={{
+          display: 'flex',
+          flex: '1 1 auto',
+          flexDirection: 'column',
+          width: '100%',
+        }}>
+          {children}
+        </Box>
+      </div>
+      <Navbar onSidebarOpen={() => setSidebar(true)} />
+      <Sidebar onClose={() => setSidebar(false)} open={sideBar} />
+    </>
   );
 };
 
